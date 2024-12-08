@@ -1,4 +1,3 @@
-````markdown
 # Authentication App with Next.js & Tailwind CSS
 
 This is a simple authentication application built with **Next.js** and styled using **Tailwind CSS**. It supports:
@@ -34,7 +33,6 @@ This is a simple authentication application built with **Next.js** and styled us
 ├── package.json           # Dependencies and scripts
 └── README.md              # Project documentation
 ```
-````
 
 ---
 
