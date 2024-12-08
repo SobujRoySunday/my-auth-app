@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+````markdown
+# Authentication App with Next.js & Tailwind CSS
 
-## Getting Started
+This is a simple authentication application built with **Next.js** and styled using **Tailwind CSS**. It supports:
 
-First, run the development server:
+- User Registration
+- User Login
+- Modular backend authentication logic for easy database integration
+
+---
+
+## Features
+
+- **User Registration and Login Pages**: Fully responsive and styled with Tailwind CSS.
+- **Modular Backend Logic**: Easy-to-extend authentication service (`Authentication.ts`) for custom database integration.
+- **Cookie-Based Authentication**: Sets an `authToken` on successful login.
+- **Standardized Folder Structure**: Ensures maintainability and scalability.
+
+---
+
+## Folder Structure
+
+```plaintext
+├── /public                # Public assets like images
+├── /src
+│   ├── /components        # Reusable UI components
+│   ├── /pages
+│   │   ├── /auth          # Auth pages (Login, Signup)
+│   ├── /services          # Authentication service
+│   ├── /styles            # Tailwind and global styles
+│   ├── /utils             # Helper functions
+├── tailwind.config.js     # Tailwind configuration
+├── next.config.js         # Next.js configuration
+├── package.json           # Dependencies and scripts
+└── README.md              # Project documentation
+```
+````
+
+---
+
+## How to Use
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-repo-url.git
+cd your-repo
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and navigate to `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Authentication Logic
 
-## Learn More
+The backend logic is implemented in the `src/services/Authentication.ts` file. It is modular, allowing you to easily integrate any database or third-party service.
 
-To learn more about Next.js, take a look at the following resources:
+### Example: `Authentication` Class
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```typescript
+export class Authentication {
+  constructor() {
+    // Initialize database or environment variables here
+  }
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  async Login(
+    username: string,
+    password: string
+  ): Promise<{ success: boolean; message?: string }> {
+    // Replace this logic with your database query
+    if (username === "admin" && password === "password") {
+      document.cookie = `authToken=12345; path=/`;
+      return { success: true };
+    }
+    return { success: false, message: "Invalid credentials" };
+  }
 
-## Deploy on Vercel
+  async Register(data: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+  }): Promise<{ success: boolean; message?: string }> {
+    // Replace this logic with your database query
+    if (data.email && data.password) {
+      return { success: true };
+    }
+    return { success: false, message: "Failed to register user" };
+  }
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### How to Integrate a Database
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Modify the `Login` and `Register` methods to query your database (e.g., MongoDB, MySQL, etc.).
+
+---
+
+## Customization
+
+- Update the styling in the `src/styles/globals.css` file or extend the `tailwind.config.js`.
+- Modify authentication methods in `Authentication.ts` to connect to your preferred database.
+- Add additional features like password recovery or OAuth by extending the `Authentication` class.
+
+---
+
+## Build for Production
+
+To build the application for production, run:
+
+```bash
+npm run build
+```
+
+Start the production server:
+
+```bash
+npm start
+```
+
+---
+
+## License
+
+```
+This project is licensed under the **MIT License**. Feel free to use, modify, and distribute as needed.
+```
